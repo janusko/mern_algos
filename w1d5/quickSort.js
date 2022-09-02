@@ -58,8 +58,8 @@ const nums4 = [2, 1];
 // function partition(nums = [], left = 0, right = nums.length - 1) {}
 
 
-function quickSort(nums){
-    if (nums.length == 1){
+function quickSort(nums) {
+    if (nums.length == 1) {
         return nums
     }
 
@@ -67,27 +67,83 @@ function quickSort(nums){
     const leftArr = []
     const rightArr = []
 
-    for (let i = 0 ; i < nums.length - 1;i++){ //dont include pivot (last element)
-        if (nums[i] < pivot){
+    for (let i = 0; i < nums.length - 1; i++) { //dont include pivot (last element)
+        if (nums[i] < pivot) {
             leftArr.push(nums[i]) //partition  
         }
-        else{
+        else {
             rightArr.push(nums[i]) //partition
 
         }
     }
 
-    if (leftArr.length > 0 && rightArr.length > 0){ //edge case in empty arr
-        return [...quickSort(leftArr),pivot, ...quickSort(rightArr)];
+    if (leftArr.length > 0 && rightArr.length > 0) { //edge case in empty arr
+        return [...quickSort(leftArr), pivot, ...quickSort(rightArr)];
     }
-    else if (leftArr.length > 0){
-        return [...quickSort(leftArr),pivot];
+    else if (leftArr.length > 0) { //  no right
+        return [...quickSort(leftArr), pivot];
     }
-    else {
-        return [...quickSort(rightArr),pivot];
+    else { // no left
+        return [...quickSort(rightArr), pivot];
 
     }
 
+}
+
+// CARO'S
+
+function QuickSort(Arr) {
+    if (Arr.length <= 1) {
+        return Arr;
+    }
+
+    const pivot = Arr[Arr.length - 1];
+    const leftArr = [];
+    const rightArr = [];
+
+    for (let i = 0; i < Arr.length - 1; i++) {
+        Arr[i] < pivot ? leftArr.push(Arr[i]) : rightArr.push(Arr[i])
+    }
+
+    return [...QuickSort(leftArr), pivot, ...QuickSort(rightArr)];
+
+}
+
+// HEIDI's
+
+function partition(nums = [], left = 0, right = nums.length - 1) {
+    let pivot = nums[right]; //pivot = 7
+    let i = left - 1
+    for (let j = left; j <= right - 1; j++) {
+        if (nums[j] < pivot) {
+            i++
+            [nums[i], nums[j]] = [nums[j], nums[i]] //swapping i and j so everything less than pivot is the left
+        }
+    }
+    [nums[i + 1], nums[right]] = [nums[right], nums[i + 1]] //swapping at pivot and i+1 so pivot is in right position
+    console.log(nums) //logs our function 
+    return (i + 1) //returns our index of new pivot
+} // awesome thanks for clarifying
+
+console.log(partition(nums1))
+
+function quickSort(nums) {
+    if (nums.length <= 1) {
+        return nums;
+    }
+    let pivot = nums[0];
+    let left = [];
+    let right = [];
+    for (i = 1; i < nums.length; i++) {
+        // nums[i] < pivot ? left.push(nums[i]): right.push(nums[i]);
+        if (nums[i] < pivot) {
+            left.push(nums[i])
+        }
+        else {
+            right.push(nums[i])
+        }
+    }
+    return quickSort(left).concat(pivot, quickSort(right));
 }
 
 console.log(quickSort(nums1));
